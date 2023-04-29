@@ -28,4 +28,9 @@ public class TargetPointEnd : TargetPoint
     {
         return bool_is_start;
     }
+
+    public void Find_friends()
+    {
+        
+    }
 }

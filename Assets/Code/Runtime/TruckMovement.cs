@@ -19,7 +19,7 @@ public class TruckMovement : MonoBehaviour
     public float my_move_speed = 0.02f;
     public float my_rotation_speed = 1;
 
-    private float target_accuracy = 0.5f;
+    private float target_accuracy = 0.7f;
 
     // Start is called before the first frame update
     void Start()
@@ -111,6 +111,7 @@ public class TruckMovement : MonoBehaviour
     private List<TrackPiece> Look_for_track()
     {
         Collider[] what_I_see = Physics.OverlapSphere(my_body.position + 2.5f * my_body.forward, 3f);
+        
         var my_choices = new List<TrackPiece> { };
         
         foreach (var collider in what_I_see)

@@ -209,8 +209,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_body: {fileID: 303878371860663957}
-  my_next: {fileID: 3722932314499835091}
-  my_previous: {fileID: 2138628419183849654}
+  my_next:
+  - {fileID: 3722932314499835091}
+  my_previous:
+  - {fileID: 2138628419183849654}
   my_track: {fileID: 542279098425369492}
 --- !u!1 &303878370591923265
 GameObject:
@@ -470,8 +472,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_body: {fileID: 303878371686968978}
-  my_next: {fileID: 1558553526689824759}
-  my_previous: {fileID: 2122152318138802118}
+  my_next:
+  - {fileID: 1558553526689824759}
+  my_previous:
+  - {fileID: 2122152318138802118}
   my_track: {fileID: 542279098425369492}
 --- !u!1 &303878371409252966
 GameObject:
@@ -911,8 +915,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_body: {fileID: 303878370139173884}
-  my_next: {fileID: 0}
-  my_previous: {fileID: 3722932314499835091}
+  my_next: []
+  my_previous:
+  - {fileID: 3722932314499835091}
   my_track: {fileID: 542279098425369492}
   my_significant_other: {fileID: 2138628419183849654}
   bool_is_start: 0
@@ -1028,8 +1033,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_body: {fileID: 303878370591923267}
-  my_next: {fileID: 2122152318138802118}
-  my_previous: {fileID: 0}
+  my_next:
+  - {fileID: 2122152318138802118}
+  my_previous: []
   my_track: {fileID: 542279098425369492}
   my_significant_other: {fileID: 1558553526689824759}
   bool_is_start: 1
