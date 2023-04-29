@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using UnityEditor;
 using UnityEditor.UI;
 using UnityEngine;
 
 public class TruckMovement : MonoBehaviour
 {
 
-    public TargetPoint my_target;
+    [CanBeNull] public TargetPoint my_target;
+    [CanBeNull] public TargetPoint my_last_target;
     public bool bool_following_track_direction = true;
     
     public Transform my_body;
     public float my_move_speed = 0.02f;
     public float my_rotation_speed = 1;
     
-    private float target_accuracy = 0.1f;
+    private float target_accuracy = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,11 @@ public class TruckMovement : MonoBehaviour
 
     private void Move_towards_target()
     {
+        if (my_target is null)
+        {
+            Search_new_target();
+        }
+        
         var direction = (my_target.get_position() - my_body.position);
         if(direction.magnitude < target_accuracy)
         {
@@ -55,10 +63,20 @@ public class TruckMovement : MonoBehaviour
         }
         
         // identify next target
+        my_last_target = my_target;
         my_target = my_target.Provide_next_target(bool_following_track_direction);
         
         // finish movement for this round
         Move_towards_target();
+    }
+
+    private void Search_new_target()
+    {
+        // see if there's a new target in your vision range
+        
+        // if not, turn around to your last track and drive in the other direction
+        my_target = my_last_target.Suggest_next_target(bool_following_track_direction);  // target for turning around
+        bool_following_track_direction = !bool_following_track_direction;  // reverse direction for tracks
     }
     
 }
