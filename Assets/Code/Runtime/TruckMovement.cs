@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.UI;
 using UnityEngine;
+using Random = System.Random;
 
 public class TruckMovement : MonoBehaviour
 {
+    private Random my_decision_maker = new Random();
 
     [CanBeNull] public TargetPoint my_target;
     [CanBeNull] public TargetPoint my_last_target;
@@ -15,7 +18,7 @@ public class TruckMovement : MonoBehaviour
     public Transform my_body;
     public float my_move_speed = 0.02f;
     public float my_rotation_speed = 1;
-    
+
     private float target_accuracy = 0.5f;
 
     // Start is called before the first frame update
@@ -73,10 +76,54 @@ public class TruckMovement : MonoBehaviour
     private void Search_new_target()
     {
         // see if there's a new target in your vision range
+        var tracks_I_see = Look_for_track();
+        var n_tracks = tracks_I_see.Count;
         
-        // if not, turn around to your last track and drive in the other direction
-        my_target = my_last_target.Suggest_next_target(bool_following_track_direction);  // target for turning around
-        bool_following_track_direction = !bool_following_track_direction;  // reverse direction for tracks
+        if (n_tracks > 0)
+        {
+            // choose a track to appraoch
+            var i_chosen = my_decision_maker.Next(n_tracks);
+            var track = tracks_I_see[i_chosen];
+            
+            // find out which target I should approach
+            var next_target = track.Say_hello(my_body.position);
+            
+            // set as new target
+            bool_following_track_direction = next_target.Say_hello();
+            my_target = next_target;
+            
+            return;
+        }
+
+        // if you cannot see a track in front of you, turn back
+        if (my_last_target != null)
+        {
+            // turn around to your last track and drive in the other direction
+            my_target = my_last_target.Suggest_next_target(bool_following_track_direction);  // target for turning around
+            bool_following_track_direction = !bool_following_track_direction;  // reverse direction for tracks
+        }
+        
+        // if you don't know where you came from, drive in circles
+        // todo: implement default direction
+        
     }
+
+    private List<TrackPiece> Look_for_track()
+    {
+        Collider[] what_I_see = Physics.OverlapSphere(my_body.position + 2.5f * my_body.forward, 3f);
+        var my_choices = new List<TrackPiece> { };
+        
+        foreach (var collider in what_I_see)
+        {
+            var track = collider.gameObject.GetComponentInParent<TrackPiece>();
+            if (track != null)
+            {
+                my_choices.Add(track);
+            }
+        }
+
+        return my_choices;
+    }
+
     
 }
