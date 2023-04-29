@@ -14,6 +14,7 @@ public class TruckMovement : MonoBehaviour
     [CanBeNull] public TargetPoint my_target;
     [CanBeNull] public TargetPoint my_last_target;
     public bool bool_following_track_direction = true;
+    public TrackPiece my_track;
     
     public Transform my_body;
     public float my_move_speed = 0.02f;
@@ -69,6 +70,18 @@ public class TruckMovement : MonoBehaviour
         my_last_target = my_target;
         my_target = my_target.Provide_next_target(bool_following_track_direction);
         
+        Debug.Log("just outside if statement");
+        
+        if (my_target.my_track != my_track)
+        {
+            Debug.Log("inside if statement");
+            var bool_new_orientation = my_target.Say_hello();
+            Debug.Log(bool_new_orientation);
+            
+            bool_following_track_direction = bool_new_orientation ?? bool_following_track_direction;
+        }
+        my_track = my_target.my_track;
+
         // finish movement for this round
         Move_towards_target();
     }
@@ -89,8 +102,9 @@ public class TruckMovement : MonoBehaviour
             var next_target = track.Say_hello(my_body.position);
             
             // set as new target
-            bool_following_track_direction = next_target.Say_hello();
+            bool_following_track_direction = next_target.Say_hello() ?? bool_following_track_direction;
             my_target = next_target;
+            my_track = my_target.my_track;
             
             return;
         }
@@ -101,6 +115,7 @@ public class TruckMovement : MonoBehaviour
             // turn around to your last track and drive in the other direction
             my_target = my_last_target.Suggest_next_target(bool_following_track_direction);  // target for turning around
             bool_following_track_direction = !bool_following_track_direction;  // reverse direction for tracks
+            my_track = my_target.my_track;  // keep track of my tracks
         }
         
         // if you don't know where you came from, drive in circles
@@ -116,7 +131,7 @@ public class TruckMovement : MonoBehaviour
         
         foreach (var collider in what_I_see)
         {
-            var track = collider.gameObject.GetComponentInParent<TrackPiece>();
+            var track = collider.gameObject.GetComponent<TrackPiece>();
             if (track != null)
             {
                 my_choices.Add(track);

@@ -50,6 +50,11 @@ public class TargetPoint : MonoBehaviour
     {
         return bool_following_track_direction ? my_track.my_start : my_track.my_stop;
     }
+    
+    public virtual bool? Say_hello()
+    {
+        return null;
+    }
 
     private void on_arrival(TruckMovement truck)
     {
