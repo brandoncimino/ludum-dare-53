@@ -1,6 +1,19 @@
+<!-- 
+    Because Unity auto-generates .csproj files, we can't edit them directly. 
+    However, the `Directory.Build.props` file is a sort of pseudo-.csproj that _will_ be respected - 
+    
+        ⚠ but only partially! ⚠
+        
+    > TL;DR: Don't set the `<LangVersion>` in this file. 
+        
+    There are lots of "compiler-only" features that C# introduces. This means that, once compiled, the code will look like "old code".
+    For example, the fancy new "switch expressions" are turned into normal switch statements when you compile your code, to make everything backwards-compatible.
+    
+    Unfortunately, Unity uses its own, out-dated compiler, which means that we still can't use any
+    features after C# 9, even though Unity CAN run that code.
+-->
 <Project>
     <PropertyGroup>
         <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 </Project>
