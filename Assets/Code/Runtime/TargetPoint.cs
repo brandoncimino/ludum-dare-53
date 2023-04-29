@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,8 +9,9 @@ public class TargetPoint : MonoBehaviour
 {
 
     public Transform my_body;
-    public TargetPoint my_next;
-    public TargetPoint my_previous;
+    [CanBeNull] public TargetPoint my_next = null;
+    [CanBeNull] public TargetPoint my_previous = null;
+    public TrackPiece my_track;
     
     // Start is called before the first frame update
     void Start()
@@ -34,9 +36,15 @@ public class TargetPoint : MonoBehaviour
         return decide_if_truck_may_pass(truck);
     }
 
+    [CanBeNull]
     public TargetPoint Provide_next_target(bool bool_following_track_direction)
     {
         return bool_following_track_direction ? my_next : my_previous;
+    }
+
+    public virtual TargetPoint Suggest_next_target(bool bool_following_track_direction)
+    {
+        return bool_following_track_direction ? my_track.my_start : my_track.my_stop;
     }
 
     private void on_arrival(TruckMovement truck)
