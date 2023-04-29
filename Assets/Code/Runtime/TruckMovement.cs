@@ -16,7 +16,7 @@ public class TruckMovement : MonoBehaviour
     public float my_move_speed = 0.02f;
     public float my_rotation_speed = 1;
     
-    private float target_accuracy = 0.8f;
+    private float target_accuracy = 0.5f;
 
     // Start is called before the first frame update
     void Start()

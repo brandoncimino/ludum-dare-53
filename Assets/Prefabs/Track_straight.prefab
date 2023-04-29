@@ -356,8 +356,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   my_lines: []
-  my_start: {fileID: 0}
-  my_stop: {fileID: 0}
+  my_start: {fileID: 2138628419183849654}
+  my_stop: {fileID: 1558553526689824759}
 --- !u!1 &303878371158374384
 GameObject:
   m_ObjectHideFlags: 0

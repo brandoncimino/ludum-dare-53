@@ -54,8 +54,8 @@ MonoBehaviour:
   my_last_target: {fileID: 0}
   bool_following_track_direction: 1
   my_body: {fileID: 7721767134611954814}
-  my_move_speed: 0.03
-  my_rotation_speed: 3
+  my_move_speed: 0.02
+  my_rotation_speed: 2
 --- !u!1 &7721767135010887073
 GameObject:
   m_ObjectHideFlags: 0
