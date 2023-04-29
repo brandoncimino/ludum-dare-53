@@ -1,0 +1,8 @@
+- [ ] Add link:../Directory.Build.props[] into the main template, so that we always get https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references[nullable reference types], https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/record-structs[record structs], and https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/file-scoped-namespaces[file-scoped namespaces]
+
+- [ ] Add link:Code/Standalone/System.Runtime.CompilerServices.IsExternalInit.cs[] to the main template, so that we always have access to records and the `init` keyword
+
+- [ ] Go through the `.idea` files that Rider keeps generating and either commit them to the template or add them to link:../.gitignore[]
+** I think they Jetbrains unified the configuration files for Rider and IntelliJ, and that's why some of the files, like the `codeStyles` (which, for C#, are handled in the `DotSettings` files) are now appearing, which contain (some) code styles for Java and stuff.
+
+- [ ] Promote link:./Code/Standalone/World.cs[`WorldLength` and `WorldPos`] into https://github.com/brandoncimino/brandon-utils[brandon-utils]
