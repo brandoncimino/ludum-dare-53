@@ -4,13 +4,16 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
+using Random = System.Random;
 
 public class TargetPoint : MonoBehaviour
 {
 
     public Transform my_body;
-    [CanBeNull] public TargetPoint my_next = null;
-    [CanBeNull] public TargetPoint my_previous = null;
+    private Random my_decision_maker = new Random();
+    
+    [CanBeNull] public List <TargetPoint> my_next = null;
+    [CanBeNull] public List <TargetPoint> my_previous = null;
     public TrackPiece my_track;
     
     // Start is called before the first frame update
@@ -39,12 +42,18 @@ public class TargetPoint : MonoBehaviour
     [CanBeNull]
     public TargetPoint Provide_next_target(bool bool_following_track_direction)
     {
-        return bool_following_track_direction ? my_next : my_previous;
+        var my_options = bool_following_track_direction ? my_next : my_previous;
+        return my_options.Count == 0 ? null : my_options[my_decision_maker.Next(my_options.Count)];
     }
 
     public virtual TargetPoint Suggest_next_target(bool bool_following_track_direction)
     {
         return bool_following_track_direction ? my_track.my_start : my_track.my_stop;
+    }
+    
+    public virtual bool? Say_hello()
+    {
+        return null;
     }
 
     private void on_arrival(TruckMovement truck)
