@@ -9,6 +9,7 @@ public class HomeDepot : MonoBehaviour
 
     public Transform my_door;
     public GameObject my_prefab;
+    public Transform truck_parent;
     
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,6 @@ public class HomeDepot : MonoBehaviour
 
     private void Spawn()
     {
-        var new_truck = Instantiate(my_prefab, my_door.position, my_door.rotation);
+        var new_truck = Instantiate(my_prefab, my_door.position, my_door.rotation, truck_parent);
     }
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class TrackPiece : MonoBehaviour
 {
-    public List<TargetPoint> my_lines;
-    public TargetPointEnd my_start;
-    public TargetPointEnd my_stop;
+    public List<TargetPointTrack> my_lines;
+    public TargetPointTrackEnd my_start;
+    public TargetPointTrackEnd my_stop;
     
     // Start is called before the first frame update
     void Start()
@@ -20,7 +20,7 @@ public class TrackPiece : MonoBehaviour
         
     }
 
-    public TargetPointEnd Say_hello(Vector3 position)
+    public TargetPointTrackEnd Say_hello(Vector3 position)
     {
         var dist_to_start = (position - my_start.my_body.position).magnitude;
         var dist_to_stop = (position - my_stop.my_body.position).magnitude;

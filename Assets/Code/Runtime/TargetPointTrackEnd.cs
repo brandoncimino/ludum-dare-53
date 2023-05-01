@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetPointEnd : TargetPoint
+public class TargetPointTrackEnd : TargetPointTrack
 {
-    public TargetPointEnd my_significant_other;
+    public TargetPointTrackEnd my_significant_other;
     public bool bool_is_start;
     
     // Start is called before the first frame update
@@ -19,7 +19,7 @@ public class TargetPointEnd : TargetPoint
         
     }
     
-    public override TargetPoint Suggest_next_target(bool bool_following_track_direction)
+    public override TargetPointTrack Suggest_next_target(bool bool_following_track_direction)
     {
         return my_significant_other;
     }
@@ -38,7 +38,7 @@ public class TargetPointEnd : TargetPoint
         
         foreach (var collider in what_I_see)
         {
-            var friend = collider.gameObject.GetComponent<TargetPointEnd>();
+            var friend = collider.gameObject.GetComponent<TargetPointTrackEnd>();
             if (friend != null)
             {
                 Make_friend(friend);
@@ -47,7 +47,7 @@ public class TargetPointEnd : TargetPoint
         }
     }
     
-    public void Make_friend(TargetPointEnd friend)
+    public void Make_friend(TargetPointTrackEnd friend)
     {
         if (friend == this) return;
         

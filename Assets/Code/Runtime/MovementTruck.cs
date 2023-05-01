@@ -1,64 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Code.Runtime;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.UI;
 using UnityEngine;
 using Random = System.Random;
 
-public class TruckMovement : MonoBehaviour
+public class MovementTruck : Movement<TargetPointTrack>
 {
     private Random my_decision_maker = new Random();
 
-    [CanBeNull] public TargetPoint my_target;
-    [CanBeNull] public TargetPoint my_last_target;
+    public TargetPointTrack? my_last_target;
+    
     public bool bool_following_track_direction = true;
     public TrackPiece my_track;
-    
-    public Transform my_body;
-    public float my_move_speed = 0.02f;
-    public float my_rotation_speed = 1;
 
-    private float target_accuracy = 0.7f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        Move_towards_target();
-    }
-
-    private void Move_towards_target()
-    {
-        if (my_target is null)
-        {
-            Search_new_target();
-        }
-        
-        var direction = (my_target.get_position() - my_body.position);
-        if(direction.magnitude < target_accuracy)
-        {
-            Approach_target();
-            return;
-        }
-            
-        var dt = Time.deltaTime; 
-        var look_rotation = Quaternion.LookRotation(direction.normalized);
-        var new_rotation = Quaternion.Slerp(my_body.rotation, look_rotation, dt * my_rotation_speed);
-        my_body.rotation = new_rotation;  // rotate
-        my_body.position += my_move_speed * my_body.forward;  // move forward
-    }
-
-    private void Approach_target()
+    protected override void Approach_target()
     {
         // tell current target it has been reached
-        var bool_may_continue = my_target.Approach(this);
+        var bool_may_continue = (my_target as TargetPointTrack).Approach(this);
 
         if (!bool_may_continue)
         {
@@ -69,24 +31,20 @@ public class TruckMovement : MonoBehaviour
         // identify next target
         my_last_target = my_target;
         my_target = my_target.Provide_next_target(bool_following_track_direction);
-        
-        Debug.Log("just outside if statement");
-        
+
         if (my_target.my_track != my_track)
         {
-            Debug.Log("inside if statement");
             var bool_new_orientation = my_target.Say_hello();
-            Debug.Log(bool_new_orientation);
             
             bool_following_track_direction = bool_new_orientation ?? bool_following_track_direction;
         }
         my_track = my_target.my_track;
 
         // finish movement for this round
-        Move_towards_target();
+        Move_to_target();
     }
 
-    private void Search_new_target()
+    protected override void Search_new_target()
     {
         // see if there's a new target in your vision range
         var tracks_I_see = Look_for_track();
@@ -140,6 +98,8 @@ public class TruckMovement : MonoBehaviour
 
         return my_choices;
     }
+
+    
 
     
 }
